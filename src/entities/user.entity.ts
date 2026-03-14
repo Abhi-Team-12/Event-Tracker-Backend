@@ -28,7 +28,7 @@ export class User {
   })
   role: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   isTwoFactorEnabled: boolean;
 
   @CreateDateColumn()
