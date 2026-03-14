@@ -55,7 +55,7 @@ import { Inquiry } from './entities/inquiry.entity';
         Inquiry
       ],
 
-      synchronize: true,
+      synchronize: false,
       autoLoadEntities: true,
 
       ssl: {
