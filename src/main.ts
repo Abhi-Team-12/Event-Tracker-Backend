@@ -13,6 +13,8 @@ import { DataSource } from 'typeorm';
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
   let app: NestExpressApplication;
+
+  // Check if we need to run over HTTPS (usually for production with custom certs)
   /* ---------------- SSL SUPPORT ---------------- */
   if (process.env.SSL_ACTIVE === 'true') {
     logger.log('SSL Mode Enabled');
@@ -33,6 +35,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const expressApp = app.getHttpAdapter().getInstance();
   /* ---------------- LANDING PAGE ---------------- */
+  // Quick landing page so the API root doesn't look empty
   expressApp.get('/', (req, res) => {
 
     const html = `
@@ -98,7 +101,7 @@ font-weight:bold;
   });
 
   /* ---------------- GLOBAL PREFIX ---------------- */
-
+  // Versioning the API is a good practice
   app.setGlobalPrefix('api/v1');
 
   /* ---------------- VALIDATION ---------------- */
@@ -125,7 +128,7 @@ font-weight:bold;
   app.use('/api/v1/uploads', express.static('uploads'));
 
   /* ---------------- SWAGGER SECURITY ---------------- */
-
+  // Keeping the API docs behind a basic auth for a bit of security
   app.use(
     ['/api_documents'],
     basicAuth({
@@ -159,7 +162,7 @@ font-weight:bold;
   });
 
   /* ---------------- SERVER START ---------------- */
-
+  // Default to 5400 if PORT is not defined in .env
   const port = Number(configService.get('PORT')) || 5400;
 
   await app.listen(port).then(() => {

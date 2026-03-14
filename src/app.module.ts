@@ -22,7 +22,7 @@ import { Inquiry } from './entities/inquiry.entity';
       isGlobal: true,
     }),
     /* ---------------- JWT ---------------- */
-
+    // Secret and expiry setup for our tokens
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'Abhishek7521AS585shbkjnvbgjnv',
       signOptions: {
@@ -55,7 +55,7 @@ import { Inquiry } from './entities/inquiry.entity';
         Inquiry
       ],
 
-      synchronize: false,
+      synchronize: false, // Don't auto-sync in prod to avoid data loss
       autoLoadEntities: true,
 
       ssl: {

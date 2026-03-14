@@ -1,98 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Mini Event Tracker — Backend (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Welcome to the backend engine of the **Mini Event Tracker**. This is a robust, scalable API built with **NestJS**, designed to handle everything from user authentication to complex event management and administrative controls.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🛠️ Tech Stack & Architecture
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Framework**: [NestJS](https://nestjs.com/) (Node.js framework for scalable server-side apps)
+- **Database**: **MySQL** with **TypeORM** (Object-Relational Mapping)
+- **Auth**: **JWT** (JSON Web Tokens) + **Passport.js**
+- **Validation**: `class-validator` & `class-transformer`
+- **Documentation**: **Swagger UI** (OpenAPI)
+- **Mailing**: `@nestjs-modules/mailer` with SMTP integration
 
-## Project setup
+The project follows a modular architecture, where each feature (Auth, Users, Events, Admin) is encapsulated in its own module for better maintainability.
 
+---
+
+## 📦 Key Modules
+
+- **`AuthModule`**: Handles registration, login (email/password), OTP verification, and password resets.
+- **`UsersModule`**: Manages user profiles and basic account data.
+- **`EventsModule`**: The core of the app. Handles CRUD for events, filtering (upcoming/past), and public access via unique links.
+- **`AdminModule`**: High-level controls for managing all users, viewing system logs, and handling user inquiries.
+- **`Entities`**: Centralized TypeORM entities for `User`, `Event`, `OTPLog`, `LoginLog`, and `Inquiry`.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Requirements
+Ensure you have **Node.js** (v18+) and **MySQL** installed.
+
+### 2. Installation
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### 3. Environment Setup
+Create a `.env` file in the root directory and configure the following:
+```env
+PORT=5400
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASS=yourpassword
+DB_NAME=mini_event_tracker
+JWT_SECRET=your_super_secret_key
+# SSL Config (Optional)
+SSL_ACTIVE=false 
 ```
 
-## Run tests
-
+### 4. Running the App
 ```bash
-# unit tests
-$ npm run test
+# Development (watch mode)
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Production
+npm run start:prod
 ```
 
-## Deployment
+### 5. API Documentation
+Once the server is running, you can access the Swagger docs at:
+👉 `http://localhost:5400/api_documents`
+*(Note: Access might be restricted by Basic Auth as configured in `main.ts`)*
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🏗️ Folder Structure (src/)
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+- `main.ts`: Entry point where the app is bootstrapped and global middlewares / Swagger are configured.
+- `app.module.ts`: Root module importing all feature-specific modules and global configs (DB, JWT, Mailer).
+- `common/`: Reusable decorators, guards, and interceptors.
+- `entities/`: Database schema definitions using TypeORM.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🔒 Security Features
+- **CORS** enabled for frontend integration.
+- **JWT Guards** for protected routes.
+- **Role-based Access Control (RBAC)**: Distinguishes between standard `user` and `admin` roles.
+- **Input Sanitization**: Global `ValidationPipe` ensures all incoming data is cleaned and validated.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 📜 License
+This project is licensed under the MIT License.

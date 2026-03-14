@@ -78,7 +78,7 @@ export class EventsService {
   }
 
   /* ---------------- CREATE EVENT ---------------- */
-
+  // Saves the event and triggers a confirmation email to the user
   async create(data: CreateEventDto, user: any) {
 
     const shareToken = crypto.randomBytes(16).toString('hex');
@@ -190,7 +190,7 @@ export class EventsService {
       throw new NotFoundException('Event not found');
     }
 
-    /* Auto-fix missing shareToken if needed */
+    /* Auto-fix missing shareToken if needed (just a safety net) */
     if (!event.shareToken) {
         event.shareToken = crypto.randomBytes(16).toString('hex');
         await this.eventRepo.save(event);

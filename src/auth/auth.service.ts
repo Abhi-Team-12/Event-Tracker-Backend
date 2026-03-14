@@ -41,6 +41,7 @@ export class AuthService {
             where: { email: data.email }
         })
 
+        // Simple check to prevent duplicate accounts
         if (exist)
             throw new BadRequestException('Email already exists')
 
@@ -78,6 +79,7 @@ export class AuthService {
         if (!match)
             throw new UnauthorizedException('Invalid password')
 
+        // If Two-Factor is enabled, we don't login yet. Instead, we send a code.
         if (user.isTwoFactorEnabled) {
             const otp = Math.floor(
                 100000 + Math.random() * 900000
